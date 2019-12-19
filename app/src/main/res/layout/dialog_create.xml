@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/dialog_bg"
     android:padding="5dp">
 
     <TextView
@@ -9,9 +10,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="50dp"
+        android:textSize="27sp"
+        android:textColor="#fff"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="37dp"
         android:text="@string/create_a_flashcard" />
 
     <EditText
