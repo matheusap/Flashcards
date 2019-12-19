@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <Button
+        android:layout_width="351dp"
+        android:layout_height="100dp"
+        android:background="@drawable/deck_button"
+        android:drawableLeft="@drawable/deck_icon"
+        android:drawableRight="@drawable/ic_chevron_right_black"
+        android:drawablePadding="30dp"
+        android:onClick="startReviews"
+        android:paddingLeft="20dp"
+        android:paddingEnd="20dp"
+        android:text="Reviews Available\n24"
+        android:layout_marginBottom="50dp"
+        android:textAllCaps="false"
+        android:textColor="#000000"
+        xmlns:android="http://schemas.android.com/apk/res/android" />
+
