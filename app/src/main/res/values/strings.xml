@@ -10,4 +10,5 @@
     <string name="create">Create</string>
     <string name="failed_creation_message">Please fill any empty fields</string>
     <string name="success_creation_msg">Creation Successful</string>
+    <string name="save_card">SAVE</string>
 </resources>

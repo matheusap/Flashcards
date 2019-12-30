@@ -11,7 +11,9 @@
         android:paddingEnd="20dp"
         android:text="Reviews Available\n24"
         android:layout_marginBottom="50dp"
+        android:stateListAnimator="@null"
         android:textAllCaps="false"
         android:textColor="#000000"
+        android:elevation="4dp"
         xmlns:android="http://schemas.android.com/apk/res/android" />
 
