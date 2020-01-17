@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -23,10 +25,11 @@ import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
 
-    static ArrayList<Item> items = new ArrayList<>();
+    static ArrayList<Item> items = new ArrayList<>(); //All Cards
 //    static ArrayList<Item> reviewable = new ArrayList<>();
     static ArrayList<ArrayList<Item>> decks = new ArrayList<>();
     static ArrayList<ArrayList<Item>> reviewable = new ArrayList<>();
+    static ArrayList<String> deck_names = new ArrayList<>();
     static SQLiteHelper dbHelper = null;
 
     @Override
@@ -34,7 +37,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dbHelper = new SQLiteHelper(this);
-
+        deck_names.add("Select a Deck");
+        deck_names.add("Create New Deck");
+        deck_names.add("Potato");
+        deck_names.add("Carrot");
+        deck_names.add("Eggs");
         LinearLayout layout = findViewById(R.id.Deck_List);
         Button deckButton = (Button)getLayoutInflater().inflate(R.layout.deckbutton,null);
         deckButton.setPadding(50,50,10,50);
@@ -100,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         CardCreationDialog.display(getSupportFragmentManager());
     }
 
-    private void populateCardsLists()
+    public void populateCardsLists()
     {
 
 //        Item item1 = new Item("My Name", "Matheus");
@@ -126,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
         {
             if(!item.getDeck().equals(previousDeck))
             {
+                deck_names.add(item.getDeck());
                 decks.add(new ArrayList<Item>());
                 reviewable.add(new ArrayList<Item>());
                 curr_index++;
@@ -144,6 +152,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+//    public void createCard(View v){
+//        View mView = getLayoutInflater().inflate(R.layout.card_creation_dialog, null);
+//        final EditText mSideA = (EditText)mView.findViewById(R.id.side_a);
+//        final EditText mSideB = (EditText)mView.findViewById(R.id.side_b);
+//        String testA = mSideA.getText().toString();
+//        String testB = mSideB.getText().toString();
+//        if(!mSideA.getText().toString().isEmpty() && !mSideB.getText().toString().isEmpty())
+//        {
+//            Toast.makeText(MainActivity.this,
+//                    R.string.success_creation_msg,
+//                    Toast.LENGTH_SHORT).show();
+//        }
+//        else
+//        {
+//            Toast.makeText(MainActivity.this,
+//                    R.string.failed_creation_message,
+//                    Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
+
     /** Called when the user taps the View Cards button */
     public void viewCards(View view) {
         // Do something in response to button
@@ -159,5 +188,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+    public void createCards(String sideA, String sideB, String deck)
+    {
+        Item item = new Item(sideA, sideB, deck);
+        dbHelper.addFlashcard(item);
+    }
+
+
 
 }

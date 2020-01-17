@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView android:id="@+id/text"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="24dp"
-    android:layout_height="24dp"
+    android:id="@+id/text"
+    android:layout_width="55dp"
+    android:layout_height="30dp"
     android:layout_margin="12dp"
     android:background="@drawable/save_frame"
     android:gravity="center"
-    android:textColor="#FF000000"
-    android:textSize="13sp"
-    android:textStyle="bold"
-    tools:text="@string/save_card"/>
+    android:hapticFeedbackEnabled="true"
+    android:text="@string/save_card"
+    android:textColor="#fff"
+    android:textSize="15sp"
+    android:textStyle="bold" />

@@ -4,11 +4,10 @@
     <string name="edit_answer">Answer</string>
     <string name="button_check">Check Answer</string>
     <string name="title_activity_delete">DeleteActivity</string>
-    <string name="create_a_flashcard">Create a Flashcard</string>
-    <string name="side_b">Side B</string>
     <string name="side_a">Side A</string>
+    <string name="side_b">Side B</string>
     <string name="create">Create</string>
     <string name="failed_creation_message">Please fill any empty fields</string>
     <string name="success_creation_msg">Creation Successful</string>
-    <string name="save_card">SAVE</string>
+    <string name="save_card">Save</string>
 </resources>

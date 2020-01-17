@@ -20,21 +20,11 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="5dp">
 
-<!--        <TextView-->
-<!--            android:id="@+id/textView"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:textSize="27sp"-->
-<!--            android:textColor="#fff"-->
-<!--            android:layout_marginTop="7dp"-->
-<!--            android:layout_marginBottom="37dp"-->
-<!--            android:text="@string/create_a_flashcard" />-->
 
         <EditText
             android:id="@+id/side_a"
@@ -60,24 +50,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/create"
+        <EditText
+            android:id="@+id/new_deck_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/create" />
+            android:ems="10"
+            android:hint="Enter new deck name"
+            android:inputType="textPersonName" />
+
+
     </LinearLayout>
-<!--    <FrameLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
 
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:text="Hello I am a dialog!" />-->
-
-<!--    </FrameLayout>-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
