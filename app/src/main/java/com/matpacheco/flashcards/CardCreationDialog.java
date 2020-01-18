@@ -1,6 +1,7 @@
 package com.matpacheco.flashcards;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,20 +21,21 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class CardCreationDialog extends DialogFragment
 {
     public static final String TAG = "example_dialog";
-
+    private ArrayList<String> creation_list;
     private Toolbar toolbar;
     private boolean cards_created = false;
 
-    public static CardCreationDialog display(FragmentManager fragmentManager) {
-        CardCreationDialog exampleDialog = new CardCreationDialog();
-        exampleDialog.show(fragmentManager, TAG);
-        return exampleDialog;
-    }
+//    public static CardCreationDialog display(FragmentManager fragmentManager) {
+//        CardCreationDialog exampleDialog = new CardCreationDialog();
+//        exampleDialog.show(fragmentManager, TAG);
+//        return exampleDialog;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,7 @@ public class CardCreationDialog extends DialogFragment
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        creation_list = new ArrayList<>();
 
         Spinner deck_select = view.findViewById(R.id.spinner);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(
@@ -96,6 +99,8 @@ public class CardCreationDialog extends DialogFragment
                 return view;
             }
         };
+        dataAdapter.add("Create New Deck");
+        dataAdapter.insert("Select a Deck",0);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         deck_select.setAdapter(dataAdapter);
         EditText deck_name_field = view.findViewById(R.id.new_deck_name);
@@ -120,7 +125,13 @@ public class CardCreationDialog extends DialogFragment
 
             }
         });
-        toolbar.setNavigationOnClickListener(v -> dismiss());
+        toolbar.setNavigationOnClickListener(v ->{
+            dataAdapter.clear();
+            if(!cards_created)
+                dismiss();
+            else
+                sendData();
+        });
         toolbar.setBackgroundColor(Color.WHITE);
         toolbar.inflateMenu(R.menu.card_creation_menu);
 
@@ -141,20 +152,30 @@ public class CardCreationDialog extends DialogFragment
                         if(mSpinner.getSelectedItem().toString().equals("Create New Deck") &&
                                 !mNewDeck.getText().toString().isEmpty())
                         {
+                            creation_list.add(mSideA.getText().toString());
+                            creation_list.add(mSideB.getText().toString());
+                            creation_list.add(mSpinner.getSelectedItem().toString());
                             Toast.makeText( getActivity(),
                                     R.string.success_creation_msg,
                                     Toast.LENGTH_SHORT).show();
                             mSideA.setText("");
                             mSideB.setText("");
+                            mSideA.requestFocus();
                             cards_created = true;
+                            dataAdapter.insert(mNewDeck.getText().toString(),dataAdapter.getPosition("Create New Deck")-1);
+                            mSpinner.setSelection(dataAdapter.getPosition(mNewDeck.getText().toString()));
                         }
                         else if(!mSpinner.getSelectedItem().toString().equals("Create New Deck"))
                         {
+                            creation_list.add(mSideA.getText().toString());
+                            creation_list.add(mSideB.getText().toString());
+                            creation_list.add(mSpinner.getSelectedItem().toString());
                             Toast.makeText( getActivity(),
                                     R.string.success_creation_msg,
                                     Toast.LENGTH_SHORT).show();
                             mSideA.setText("");
                             mSideB.setText("");
+                            mSideA.requestFocus();
                             cards_created = true;
                         }
                         else
@@ -177,4 +198,20 @@ public class CardCreationDialog extends DialogFragment
 
         });
     }
+
+    private void sendData()
+    {
+        //INTENT OBJ
+        Intent i = new Intent(getActivity().getBaseContext(),
+                MainActivity.class);
+
+        //PACK DATA
+        i.putExtra("SENDER_KEY", "CardCreation");
+        i.putStringArrayListExtra("creation_list", creation_list);
+
+        //START ACTIVITY
+        getActivity().startActivity(i);
+    }
+
+
 }

@@ -26,76 +26,35 @@ import java.util.TimeZone;
 public class MainActivity extends AppCompatActivity {
 
     static ArrayList<Item> items = new ArrayList<>(); //All Cards
-//    static ArrayList<Item> reviewable = new ArrayList<>();
-    static ArrayList<ArrayList<Item>> decks = new ArrayList<>();
-    static ArrayList<ArrayList<Item>> reviewable = new ArrayList<>();
-    static ArrayList<String> deck_names = new ArrayList<>();
+    static ArrayList<ArrayList<Item>> decks = new ArrayList<>(); //All decks with respective cards
+    static ArrayList<ArrayList<Item>> reviewable = new ArrayList<>(); //Reviewable decks with cards
+    static ArrayList<String> deck_names = new ArrayList<>(); //Names of decks
     static SQLiteHelper dbHelper = null;
-
+    private ArrayList<String> creation_list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         dbHelper = new SQLiteHelper(this);
-        deck_names.add("Select a Deck");
-        deck_names.add("Create New Deck");
-        deck_names.add("Potato");
-        deck_names.add("Carrot");
-        deck_names.add("Eggs");
         LinearLayout layout = findViewById(R.id.Deck_List);
-        Button deckButton = (Button)getLayoutInflater().inflate(R.layout.deckbutton,null);
-        deckButton.setPadding(50,50,10,50);
 
-        Button deckButton2 = (Button)getLayoutInflater().inflate(R.layout.deckbutton,null);
-        deckButton2.setPadding(50,50,10,50);
-        Button deckButton3 = (Button)getLayoutInflater().inflate(R.layout.deckbutton,null);
-        deckButton3.setPadding(50,50,10,50);
-//        deckButton3.setElevation(500);
+        /* TEMP CODE CREATING FAKE BUTTONS */
+//        Button deckButton = (Button)getLayoutInflater().inflate(R.layout.deckbutton,null);
+//        deckButton.setPadding(50,50,10,50);
+//        Button deckButton2 = (Button)getLayoutInflater().inflate(R.layout.deckbutton,null);
+//        deckButton2.setPadding(50,50,10,50);
+//        Button deckButton3 = (Button)getLayoutInflater().inflate(R.layout.deckbutton,null);
+//        deckButton3.setPadding(50,50,10,50);
+//        layout.addView(deckButton);
+//        layout.addView(deckButton2);
+//        layout.addView(deckButton3);
+        /* /FAKE CODE */
 
-
-        layout.addView(deckButton);
-        layout.addView(deckButton2);
-        layout.addView(deckButton3);
         FloatingActionButton mCreateCard = (FloatingActionButton) findViewById(R.id.fabCreateCard);
         mCreateCard.setOnClickListener(v -> openDialog());
-//                new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view)
-//            {
-//                AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
-//                View mView = getLayoutInflater().inflate(R.layout.dialog_create, null);
-//                final EditText mSideA = (EditText)mView.findViewById(R.id.side_a);
-//                final EditText mSideB = (EditText)mView.findViewById(R.id.side_b);
-//                Button mCreate = (Button)mView.findViewById(R.id.create);
-//
-//                mCreate.setOnClickListener(new View.OnClickListener()
-//                {
-//                    @Override
-//                    public void onClick(View v)
-//                    {
-//                        if(!mSideA.getText().toString().isEmpty() && !mSideB.getText().toString().isEmpty())
-//                        {
-//                            Toast.makeText(MainActivity.this,
-//                                    R.string.success_creation_msg,
-//                                    Toast.LENGTH_SHORT).show();
-//                        }
-//                        else
-//                        {
-//                            Toast.makeText(MainActivity.this,
-//                                    R.string.failed_creation_message,
-//                                    Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
-//
-//                mBuilder.setView(mView);
-//                AlertDialog dialog = mBuilder.create();
-//                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//                dialog.show();
-//            }
-//        });
 
-//        populateCardsLists();
+        populateCardsLists();
 
 //        TextView reviews_available = (TextView)findViewById(R.id.reviews_available);
 //        reviews_available.setText("" + reviewable.size());
@@ -104,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void openDialog()
     {
-        CardCreationDialog.display(getSupportFragmentManager());
+        CardCreationDialog myDialog = new CardCreationDialog();
+        myDialog.show(getSupportFragmentManager(), "Card Creation Dialog");
     }
 
     public void populateCardsLists()
@@ -126,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         items = dbHelper.getAllFlashcards();
 
         Calendar current_time = Calendar.getInstance(TimeZone.getTimeZone("GMT+9"));
-
+        dbHelper.addFlashcard(new Item("What's Potato?","Batata","PT"));
         String previousDeck = "";
         int curr_index = -1;
         for (Item item: items ) 
@@ -152,27 +112,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    public void createCard(View v){
-//        View mView = getLayoutInflater().inflate(R.layout.card_creation_dialog, null);
-//        final EditText mSideA = (EditText)mView.findViewById(R.id.side_a);
-//        final EditText mSideB = (EditText)mView.findViewById(R.id.side_b);
-//        String testA = mSideA.getText().toString();
-//        String testB = mSideB.getText().toString();
-//        if(!mSideA.getText().toString().isEmpty() && !mSideB.getText().toString().isEmpty())
-//        {
-//            Toast.makeText(MainActivity.this,
-//                    R.string.success_creation_msg,
-//                    Toast.LENGTH_SHORT).show();
-//        }
-//        else
-//        {
-//            Toast.makeText(MainActivity.this,
-//                    R.string.failed_creation_message,
-//                    Toast.LENGTH_SHORT).show();
-//        }
-//
-//    }
-
     /** Called when the user taps the View Cards button */
     public void viewCards(View view) {
         // Do something in response to button
@@ -193,6 +132,32 @@ public class MainActivity extends AppCompatActivity {
     {
         Item item = new Item(sideA, sideB, deck);
         dbHelper.addFlashcard(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //DETERMINE WHO STARTED THIS ACTIVITY
+        String sender = null;
+        if(this.getIntent().getExtras() != null)
+            sender=this.getIntent().getExtras().getString("SENDER_KEY");
+
+        //IF ITS THE FRAGMENT THEN RECEIVE DATA
+        if(sender != null && sender.equals("CardCreation"))
+        {
+            this.receiveData();
+            for(int i = 0; i < creation_list.size(); i+=3)
+            {
+                createCards(creation_list.get(i),creation_list.get(i+1),creation_list.get(i+3));
+            }
+        }
+    }
+
+    private void receiveData()
+    {
+        //RECEIVE DATA VIA INTENT
+        creation_list = getIntent().getStringArrayListExtra("creation_list");
     }
 
 
