@@ -3,6 +3,8 @@ package com.matpacheco.flashcards;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -24,7 +26,7 @@ public class ReviewActivity extends AppCompatActivity
         setContentView(R.layout.activity_review);
 
         layout = (ConstraintLayout)findViewById(R.id.constraintLayout);
-        DECK_ID = Integer.parseInt(getIntent().getStringExtra("DECK_ID"));
+        DECK_ID = getIntent().getIntExtra("DECK_ID",-1);
 
         startReview();
     }
@@ -34,6 +36,7 @@ public class ReviewActivity extends AppCompatActivity
         //If we're out of cards to review
         if(MainActivity.reviewable.get(DECK_ID).size() == 0)
         {
+            setResult(Activity.RESULT_OK);
             finish();
             return;
         }
@@ -43,7 +46,7 @@ public class ReviewActivity extends AppCompatActivity
         TextView questionView = (TextView)findViewById(R.id.questionView);
 
         Random rnd = new Random();
-        final int index = rnd.nextInt(((MainActivity.reviewable.size()-1) - 0) + 1 );
+        final int index = rnd.nextInt(MainActivity.reviewable.size()-1);
 
         final Item current = MainActivity.reviewable.get(DECK_ID).get(index);
         String firstQuestion = (String)current.getQuestion();
@@ -65,11 +68,16 @@ public class ReviewActivity extends AppCompatActivity
                     ConstraintLayout layout = (ConstraintLayout)findViewById(R.id.constraintLayout);
                     if(user_answer.toLowerCase().equals(current.getAnswer().toLowerCase()))
                     {
-                        //Set current Item as last item on ArrayList to optimize removal speed
-                        Item temp = MainActivity.reviewable.get(DECK_ID).get(MainActivity.reviewable.size()-1);
-                        MainActivity.reviewable.get(DECK_ID).set(MainActivity.reviewable.get(DECK_ID).size()-1,current);
-                        MainActivity.reviewable.get(DECK_ID).set(index, temp);
-                        MainActivity.reviewable.get(DECK_ID).remove(MainActivity.reviewable.size()-1);
+                        if(MainActivity.reviewable.get(DECK_ID).size() == 1)
+                            MainActivity.reviewable.get(DECK_ID).remove(current);
+                        else
+                        {
+                            //Set current Item as last item on ArrayList to optimize removal speed
+                            Item temp = MainActivity.reviewable.get(DECK_ID).get(MainActivity.reviewable.size() - 1);
+                            MainActivity.reviewable.get(DECK_ID).set(MainActivity.reviewable.get(DECK_ID).size() - 1, current);
+                            MainActivity.reviewable.get(DECK_ID).set(index, temp);
+                            MainActivity.reviewable.get(DECK_ID).remove(MainActivity.reviewable.size() - 1);
+                        }
                         current.setLevel(current.getLevel()+1);
 
                         layout.setBackgroundColor(Color.rgb(230,255,230));
@@ -96,4 +104,5 @@ public class ReviewActivity extends AppCompatActivity
         });
 
     }
+
 }

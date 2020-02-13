@@ -79,7 +79,7 @@ public class Item
         }
         this.level = level;
 
-        next_review.getTime();
+        next_review = Calendar.getInstance(TimeZone.getTimeZone("GMT+9"));
 
         //New level has been set, now schedule next review
         switch(level)

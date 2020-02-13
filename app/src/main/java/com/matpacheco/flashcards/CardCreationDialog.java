@@ -154,7 +154,7 @@ public class CardCreationDialog extends DialogFragment
                         {
                             creation_list.add(mSideA.getText().toString());
                             creation_list.add(mSideB.getText().toString());
-                            creation_list.add(mSpinner.getSelectedItem().toString());
+                            creation_list.add(mNewDeck.getText().toString());
                             Toast.makeText( getActivity(),
                                     R.string.success_creation_msg,
                                     Toast.LENGTH_SHORT).show();
