@@ -7,100 +7,78 @@
     android:background="@drawable/background"
     tools:context=".MainActivity">
 
-<!--    <LinearLayout-->
-<!--        android:id="@+id/linearLayout"-->
-<!--        android:layout_width="381dp"-->
-<!--        android:layout_height="455dp"-->
-<!--        android:orientation="vertical"-->
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/Deck_List"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
+
+<!--        </RelativeLayout>-->
+
+<!--&lt;!&ndash;        <LinearLayout&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/Deck_List"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:orientation="vertical"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:paddingHorizontal="10dp"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:paddingTop="50dp">&ndash;&gt;-->
+
+<!--&lt;!&ndash;        </LinearLayout>&ndash;&gt;-->
+<!--    </RelativeLayout>-->
+
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/fabCreateCard"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginRight="10dp"-->
+<!--        android:layout_marginBottom="20dp"-->
+<!--        android:clickable="true"-->
+<!--        app:backgroundTint="#484D6D"-->
 <!--        app:layout_constraintBottom_toBottomOf="parent"-->
 <!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
+<!--        app:rippleColor="#00AED3B7"-->
+<!--        app:srcCompat="@drawable/ic_add_24px" />-->
 
-    <LinearLayout
-        android:id="@+id/Deck_List"
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingHorizontal="10dp"
-        android:paddingTop="50dp"
-        tools:layout_editor_absoluteX="-16dp"
-        tools:layout_editor_absoluteY="218dp">
+        android:layout_height="match_parent">
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/Deck_List"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="100dp"
+            android:orientation="vertical">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabCreateCard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="20dp"
-        android:clickable="true"
-        app:backgroundTint="#484D6D"
+        </LinearLayout>
+    </ScrollView>
+
+
+    <RelativeLayout
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:rippleColor="#00AED3B7"
-        app:srcCompat="@drawable/ic_add_24px" />
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabCreateCard"
+            android:layout_width="268dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginRight="1dp"
+            android:clickable="true"
+            app:rippleColor="#00AED3B7"
+            app:backgroundTint="#484D6D"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.75"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/ic_add_24px" />
 
-    <!--        <Space-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="46dp" />-->
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="351dp"-->
-<!--            android:layout_height="69dp"-->
-<!--            android:orientation="horizontal">-->
-
-<!--            <Space-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1" />-->
-
-<!--            <Button-->
-<!--                android:id="@+id/create"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:onClick="viewCards"-->
-<!--                android:text="Create Item" />-->
-
-<!--        </LinearLayout>-->
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="351dp"-->
-<!--            android:layout_height="102dp"-->
-<!--            android:orientation="horizontal">-->
-
-<!--            <Space-->
-<!--                android:layout_width="206dp"-->
-<!--                android:layout_height="44dp"-->
-<!--                android:layout_weight="1"-->
-<!--                tools:layout_editor_absoluteX="-88dp"-->
-<!--                tools:layout_editor_absoluteY="325dp" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/reviews_available"-->
-<!--                android:layout_width="43dp"-->
-<!--                android:layout_height="18dp"-->
-<!--                android:text="0"-->
-<!--                android:textAlignment="center" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/review_label"-->
-<!--                android:layout_width="87dp"-->
-<!--                android:layout_height="19dp"-->
-<!--                android:text="Available"-->
-<!--                android:textAlignment="center" />-->
-
-<!--            <Button-->
-<!--                android:id="@+id/review"-->
-<!--                android:layout_width="113dp"-->
-<!--                android:layout_height="49dp"-->
-<!--                android:onClick="startReviews"-->
-<!--                android:text="Review" />-->
-
-<!--        </LinearLayout>-->
-
-<!--    </LinearLayout>-->
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

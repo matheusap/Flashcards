@@ -99,8 +99,12 @@ public class CardCreationDialog extends DialogFragment
                 return view;
             }
         };
-        dataAdapter.add("Create New Deck");
-        dataAdapter.insert("Select a Deck",0);
+        if(dataAdapter.getPosition("Create New Deck") == -1)
+        {
+            dataAdapter.add("Create New Deck");
+            dataAdapter.insert("Select a Deck", 0);
+        }
+
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         deck_select.setAdapter(dataAdapter);
         EditText deck_name_field = view.findViewById(R.id.new_deck_name);
@@ -112,6 +116,8 @@ public class CardCreationDialog extends DialogFragment
 
                 if (Objects.equals(deck_select.getSelectedItem().toString(), "Create New Deck")) {
                     deck_name_field.setVisibility(View.VISIBLE);
+                    deck_name_field.setText("");
+                    deck_name_field.requestFocus();
                 }
                 else{
                     deck_name_field.setVisibility(View.GONE);
@@ -160,6 +166,7 @@ public class CardCreationDialog extends DialogFragment
                                     Toast.LENGTH_SHORT).show();
                             mSideA.setText("");
                             mSideB.setText("");
+//                            dataAdapter.remove("Select a Deck");
                             mSideA.requestFocus();
                             cards_created = true;
                             dataAdapter.insert(mNewDeck.getText().toString(),dataAdapter.getPosition("Create New Deck")-1);

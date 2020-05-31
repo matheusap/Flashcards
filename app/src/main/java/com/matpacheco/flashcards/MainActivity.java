@@ -10,10 +10,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Space;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
         //Get list of items. Should be SORTED BY DECK
         items = dbHelper.getAllFlashcards();
 
-        Calendar current_time = Calendar.getInstance(TimeZone.getTimeZone("GMT+9"));
         String previousDeck = "";
         int curr_index = -1;
         int review_counter = 0;
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout layout = findViewById(R.id.Deck_List);
         layout.removeAllViews();
 
+        //Iterate through list of items, assign each a button on the screen, and fill deck list
         for (Item item: items ) 
         {
             if(!item.getDeck().equals(previousDeck))
@@ -84,6 +86,10 @@ public class MainActivity extends AppCompatActivity {
                 curr_index++;
                 previousDeck = item.getDeck();
 
+                Space space = new Space(this);
+                space.setLayoutParams(new LinearLayout.LayoutParams(0,30));
+                layout.addView(space);
+
                 Button deckButton = (Button)getLayoutInflater().inflate(R.layout.deckbutton,null);
 
                 deckButton.setPadding(50,50,10,50);
@@ -91,15 +97,20 @@ public class MainActivity extends AppCompatActivity {
                 deckButton.setText("No Reviews Available");
                 deckButton.setEnabled(false);
                 layout.addView(deckButton);
+                deckButton.getLayoutParams().width = 1000;
+
                 review_counter = 0;
             }
+
+            //If current item is up for reviews, say so on appropriate deck's button
+            Calendar current_time = Calendar.getInstance(TimeZone.getTimeZone("GMT+9"));
             if(current_time.compareTo(item.getNext_review()) >= 0)
             {
                 reviewable.get(curr_index).add(item);
                 review_counter++;
-                Button currButton = (Button) layout.getChildAt(curr_index);
-                currButton.setText("Reviews Available\n" + review_counter);
-                currButton.setEnabled(true);
+//                Button currButton = (Button) layout.getChildAt(curr_index);
+//                currButton.setText("Reviews Available\n" + review_counter);
+//                currButton.setEnabled(true);
             }
             decks.get(curr_index).add(item);
 
